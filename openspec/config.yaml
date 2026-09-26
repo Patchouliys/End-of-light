@@ -3,7 +3,8 @@ schema: spec-driven
 context: |
   Language: English. Write concise English documentation, specifications, and agent guidance.
   End of Light targets Minecraft 1.21.1, NeoForge 21.1.251 and Java 21.
-  Custom mods live in mods/core; packwiz metadata lives in pack/.
+  Custom mods live in mods/<module>, each with its own mod.json and resources; packwiz metadata lives in pack/.
+  Modules share the pinned platform but have no implicit dependencies. Scope changes to the owning module.
   Read AGENTS.md and .agents/skills/minecraft-neoforge/SKILL.md before modding.
   Default development checks cover static validation and compilation. Do not launch
   the client, server, GameTest or game-initializing datagen without explicit authorization.

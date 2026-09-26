@@ -1,0 +1,54 @@
+import groovy.json.JsonGenerator
+import groovy.json.JsonSlurper
+
+// This script configures only the module that applies it.
+def manifestFile = file('mod.json')
+def manifest = new JsonSlurper().parseText(providers.fileContents(layout.projectDirectory.file('mod.json')).asText.get())
+def requiredFields = ['mod_id', 'mod_name', 'mod_version', 'mod_group_id', 'mod_license',
+                      'mod_authors', 'mod_description', 'mod_entrypoint']
+if (!(manifest instanceof Map) || manifest.keySet() != requiredFields.toSet() ||
+    requiredFields.any { !(manifest[it] instanceof String) || !manifest[it].trim() }) {
+    throw new GradleException("${project.path}: mod.json requires nonempty strings for ${requiredFields.join(', ')}")
+}
+if (!(manifest.mod_id ==~ /[a-z][a-z0-9_]{1,63}/) ||
+    !(manifest.mod_version ==~ /[A-Za-z0-9][A-Za-z0-9.+_-]*/)) {
+    throw new GradleException("${project.path}: invalid Mod ID or version in mod.json")
+}
+
+version = manifest.mod_version
+group = manifest.mod_group_id
+base.archivesName = manifest.mod_id
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = rootProject.property('neo_version')
+    mods {
+        "${manifest.mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+sourceSets.main.resources.srcDir 'src/generated/resources'
+sourceSets.main.resources.exclude '**/.cache/**', '**/*.bbmodel'
+
+def metadata = new LinkedHashMap(manifest)
+metadata.minecraft_version = rootProject.property('minecraft_version')
+metadata.neo_version = rootProject.property('neo_version')
+def tomlStrings = new JsonGenerator.Options().disableUnicodeEscaping().build()
+['mod_name', 'mod_license', 'mod_authors', 'mod_description'].each { key ->
+    metadata["${key}_toml".toString()] = tomlStrings.toJson(manifest[key])
+}
+
+tasks.named('processResources', ProcessResources) {
+    inputs.file manifestFile
+    inputs.properties metadata
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand(metadata) { escapeBackslash = true }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+}

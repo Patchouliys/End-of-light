@@ -8,7 +8,7 @@
   "scripts": {
     "spec": "node scripts/openspec.mjs",
     "spec:validate": "node scripts/openspec.mjs validate --all --strict --no-interactive",
-    "check": "python3 scripts/check_workspace.py && npm run spec:validate",
+    "check": "python3 scripts/check_workspace.py && python3 -m unittest discover -s tests && npm run spec:validate",
     "pack:refresh": "cd pack && packwiz refresh",
     "pack:check": "python3 scripts/check_pack.py"
   },
