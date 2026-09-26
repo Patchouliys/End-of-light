@@ -4,8 +4,9 @@ Default development checks cover static validation and compilation. They do not 
 
 | Level | Method | Evidence |
 | --- | --- | --- |
-| Static checks | `npm run check` | Version alignment, metadata, pack hashes, and specification format |
-| Build | `./gradlew :core:build` with JDK 21 | Compilation, resource processing, and JAR generation |
+| Static checks | `npm run check` | All module identities/resources, regression tests, pack hashes, and specification format |
+| Build | `./gradlew :<module>:build` or `./gradlew :build` with JDK 21 | Selected or all modules: compilation, resource processing, and separate JARs |
+| Build regression | `python3 scripts/test_mod_builds.py` with JDK 21 | Temporary two-mod build selection, failure isolation, metadata, and JAR separation |
 | Unit tests | Add when pure logic warrants tests | The tested algorithm's behavior |
 | Game acceptance | Authorized test environment | Loading, rendering, world behavior, multiplayer, and compatibility |
 

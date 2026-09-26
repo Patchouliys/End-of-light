@@ -1,9 +1,4 @@
-# custom-mods Specification
-
-## Purpose
-Define the target platform, build entry point, and client/server boundaries for consistent custom-mod development.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Versioned NeoForge development skeleton
 Custom mods MUST target Minecraft 1.21.1, a pinned NeoForge version, and Java 21. Each mod MUST reside in `mods/<module>` with its own identity, version, entry point, sources, resources, and build output. Builds MUST use the verified Gradle wrapper and preserve the existing `:core` module and `endoflight` identity.
@@ -21,12 +16,7 @@ Custom mods MUST target Minecraft 1.21.1, a pinned NeoForge version, and Java 21
 - **WHEN** the root build is requested
 - **THEN** all discovered modules are built into their respective output directories
 
-### Requirement: Shared code and compatibility boundaries
-Shared code MUST avoid client-only classes. The server SHALL own authoritative state. Changes to released resource IDs or saved-data fields SHALL include a migration strategy.
-
-#### Scenario: Client functionality is added
-- **WHEN** a change introduces rendering, UI, or client input
-- **THEN** client classes are isolated from shared initialization and dedicated-server acceptance is tracked separately
+## ADDED Requirements
 
 ### Requirement: Explicit module relationships
 Mods MUST NOT implicitly depend on `core` or another workspace mod. Cross-mod dependencies SHALL be explicitly declared in build configuration and loader metadata. Module identity collisions MUST fail validation.

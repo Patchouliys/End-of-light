@@ -3,41 +3,4 @@ plugins {
     id 'net.neoforged.moddev'
 }
 
-version = mod_version
-group = mod_group_id
-base.archivesName = mod_id
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
-
-neoForge {
-    version = project.neo_version
-    mods {
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
-        }
-    }
-    // Runtime configurations are intentionally deferred to a test-capable machine.
-}
-
-sourceSets.main.resources.srcDir 'src/generated/resources'
-sourceSets.main.resources.exclude '**/.cache/**', '**/*.bbmodel'
-
-def metadata = [
-    mod_id: mod_id,
-    mod_name: mod_name,
-    mod_version: mod_version,
-    mod_license: mod_license,
-    minecraft_version: minecraft_version,
-    neo_version: neo_version,
-]
-
-tasks.named('processResources', ProcessResources) {
-    inputs.properties metadata
-    filesMatching('META-INF/neoforge.mods.toml') {
-        expand metadata
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-    options.release = 21
-}
+apply from: rootProject.file('gradle/neoforge-mod.gradle')

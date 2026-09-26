@@ -6,5 +6,22 @@ pluginManagement {
 }
 
 rootProject.name = 'end-of-light'
-include 'core'
-project(':core').projectDir = file('mods/core')
+def modules = file('mods').listFiles()?.findAll { it.directory && !it.name.startsWith('.') }?.sort { it.name }
+if (!modules) {
+    throw new GradleException('At least one module is required under mods/')
+}
+modules.each { directory ->
+    if (java.nio.file.Files.isSymbolicLink(directory.toPath())) {
+        throw new GradleException("Module ${directory.name} cannot be a symlink")
+    }
+    if (!(directory.name ==~ /[a-z][a-z0-9_-]*/)) {
+        throw new GradleException("Invalid module directory: ${directory.name}")
+    }
+    ['build.gradle', 'mod.json'].each { required ->
+        if (!new File(directory, required).isFile()) {
+            throw new GradleException("Module ${directory.name} is missing ${required}")
+        }
+    }
+    include directory.name
+    project(":${directory.name}").projectDir = directory
+}

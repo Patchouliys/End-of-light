@@ -59,3 +59,7 @@ local.properties
 **/banned-*.json
 
 # Keep AGENTS.md, .agents/skills, specs, pack configs and generated game data tracked.
+
+# Immediate mod directories are source roots, even for names such as world or build.
+# Nested build outputs and game instances remain ignored by the rules above.
+!/mods/*/

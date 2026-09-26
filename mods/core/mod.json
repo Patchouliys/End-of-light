@@ -1,0 +1,10 @@
+{
+  "mod_id": "endoflight",
+  "mod_name": "End of Light",
+  "mod_version": "0.1.0",
+  "mod_group_id": "io.github.patchouliys.endoflight",
+  "mod_license": "All Rights Reserved",
+  "mod_authors": "Patchouliys",
+  "mod_description": "Custom gameplay foundation for the End of Light modpack.",
+  "mod_entrypoint": "io.github.patchouliys.endoflight.EndOfLight"
+}

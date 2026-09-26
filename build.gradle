@@ -3,10 +3,8 @@ plugins {
     id 'net.neoforged.moddev' version '2.0.147' apply false
 }
 
-tasks.named('build') {
-    dependsOn ':core:build'
-}
-
-tasks.named('clean') {
-    dependsOn ':core:clean'
+['build', 'check', 'clean'].each { taskName ->
+    tasks.named(taskName) {
+        dependsOn subprojects.collect { "${it.path}:${taskName}" }
+    }
 }

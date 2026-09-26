@@ -7,7 +7,8 @@ description: Develop End of Light custom NeoForge mods and packwiz modpack chang
 
 ## Ground the change
 
-Read `AGENTS.md`, `gradle.properties`, `pack/pack.toml` and relevant OpenSpec specs/change.
+Read `AGENTS.md`, `gradle.properties`, the owning module's `mod.json`,
+`pack/pack.toml` and relevant OpenSpec specs/change. Use `docs/modules.md` for module setup.
 Target Minecraft 1.21.1, NeoForge and Java 21. Read the exact loader version from
 `gradle.properties`; do not infer it from a documentation branch.
 
@@ -45,8 +46,11 @@ supplies authorization for development; ask only for material missing decisions.
   Add a dependency or abstraction only when it solves a concrete current problem.
   Prefer readable code over one-liners and fix shared causes rather than symptoms.
 - Existing data/config solutions belong in `pack/`; new Java behavior belongs in
-  `mods/core/`. Do not install KubeJS, Mixin, libraries or unrelated mods by default.
-- Use NeoForge registration APIs and the `endoflight` namespace. Add models,
+  the owning `mods/<module>/`. Do not install KubeJS, Mixin, libraries or unrelated mods by default.
+- Keep each mod's identity, version, sources, resources, and output independent. Do not
+  assume a dependency on core; declare cross-mod dependencies in Gradle and loader metadata.
+  Concurrent editing sessions use separate branches/worktrees and coordinate shared files.
+- Use NeoForge registration APIs and the owning manifest's `mod_id` namespace. Add models,
   textures, tags, recipes and en_us/zh_cn strings when the actual feature needs them.
 - Pure calculations can remain Java code with focused unit tests. World-dependent
   behavior requires later game acceptance; a Java compilation is not that evidence.
@@ -81,8 +85,9 @@ supplies authorization for development; ask only for material missing decisions.
 
 ## Validate within this project's execution boundary
 
-Run `npm run check`. Compile with `./gradlew :core:build` only where JDK 21 is available;
-CI is configured for that. If packwiz is available, run `npm run pack:refresh` and inspect
+Run `npm run check` across all modules. Compile with `./gradlew :<module>:build` or
+`./gradlew :build` for all modules where JDK 21 is available; CI discovers each module.
+For shared build changes, also run `python3 scripts/test_mod_builds.py`. If packwiz is available, run `npm run pack:refresh` and inspect
 its changes. The Python index check verifies recorded hashes; CI checks canonical packwiz output.
 
 Default development checks cover static validation and compilation. Do not launch client,

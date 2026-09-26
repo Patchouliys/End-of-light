@@ -11,10 +11,12 @@ Requirements: Node.js 22+ (24 LTS recommended), Python 3.11+, and JDK 21 for com
 ```sh
 npm ci --ignore-scripts
 npm run check
-./gradlew :core:build
+./gradlew :build
 ```
 
-Build output: `mods/core/build/libs/`. On Windows, use `gradlew.bat :core:build`. These commands do not launch Minecraft.
+Build one mod with `./gradlew :core:build`, or all mods with `./gradlew :build`. Outputs stay in `mods/<module>/build/libs/`. On Windows, use `gradlew.bat`. These commands do not launch Minecraft.
+
+Each mod has its own identity, version, code, and resources. New directories under `mods/` are discovered automatically when they contain `build.gradle` and `mod.json`. Only `core` exists initially; see [adding and developing mods](docs/modules.md).
 
 ## AI development
 
@@ -37,7 +39,8 @@ See [development](docs/development.md), [workflow](docs/workflow.md), [validatio
 
 | Path | Purpose |
 | --- | --- |
-| `mods/core/` | Custom NeoForge mod; Gradle project `:core` |
+| `mods/<module>/` | Independent NeoForge mods; initially `core` / `endoflight` |
+| `gradle/neoforge-mod.gradle` | Shared module build conventions |
 | `pack/` | packwiz metadata and distributable configuration |
 | `openspec/specs/` | Current requirements |
 | `openspec/changes/` | Active changes and archives |
@@ -47,7 +50,7 @@ See [development](docs/development.md), [workflow](docs/workflow.md), [validatio
 
 ## Continuous integration
 
-GitHub Actions checks specifications, compiles the mod with Java 21, and validates packwiz indexes and export format on main-branch pushes, pull requests, or manual dispatch. CI is optional automation for development; it neither launches games nor publishes releases.
+GitHub Actions checks specifications and all module metadata, builds each discovered mod in its own Java 21 matrix job, and validates packwiz indexes and export format on main-branch pushes, pull requests, or manual dispatch. A failed module build does not cancel sibling jobs; shared validation/configuration errors can still affect all modules. CI neither launches games nor publishes releases.
 
 ## Pack maintenance
 
