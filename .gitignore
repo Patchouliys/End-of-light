@@ -1,0 +1,61 @@
+# Local tools and dependency caches
+node_modules/
+.npm/
+.tooling/
+.gradle/
+.gradle-user-home/
+__pycache__/
+*.py[cod]
+**/build/
+**/out/
+dist/
+repo/
+
+# IDE / OS state
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Development game instances, saves and logs
+**/run/
+**/run-*/
+**/runs/
+**/.minecraft/
+**/saves/
+**/world/
+**/world_nether/
+**/world_the_end/
+**/logs/
+**/crash-reports/
+**/screenshots/
+**/.cache/
+*.log
+hs_err_pid*
+replay_pid*
+
+# Binary distributions: dependencies are packwiz metadata, never vendored jars.
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+*.zip
+*.mrpack
+*.tar.gz
+*.hprof
+
+# Credentials and machine-local properties
+.env
+.env.*
+!.env.example
+local.properties
+*.pem
+*.key
+**/usercache.json
+**/usernamecache.json
+**/ops.json
+**/whitelist.json
+**/banned-*.json
+
+# Keep AGENTS.md, .agents/skills, specs, pack configs and generated game data tracked.

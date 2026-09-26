@@ -1,0 +1,14 @@
+.packwizignore
+.DS_Store
+.gitkeep
+**/.gitkeep
+*.md
+**/*.md
+*.mrpack
+*.zip
+*.jar
+**/*.jar
+logs/
+crash-reports/
+saves/
+screenshots/

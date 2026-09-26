@@ -1,0 +1,18 @@
+{
+  "name": "end-of-light-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Spec-driven Minecraft 1.21.1 / NeoForge modpack workspace",
+  "license": "UNLICENSED",
+  "engines": { "node": ">=22.0.0" },
+  "scripts": {
+    "spec": "node scripts/openspec.mjs",
+    "spec:validate": "node scripts/openspec.mjs validate --all --strict --no-interactive",
+    "check": "python3 scripts/check_workspace.py && npm run spec:validate",
+    "pack:refresh": "cd pack && packwiz refresh",
+    "pack:check": "python3 scripts/check_pack.py"
+  },
+  "devDependencies": {
+    "@fission-ai/openspec": "1.13.2"
+  }
+}

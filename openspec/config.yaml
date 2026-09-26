@@ -1,0 +1,35 @@
+schema: spec-driven
+
+context: |
+  Language: English. Write concise English documentation, specifications, and agent guidance.
+  End of Light targets Minecraft 1.21.1, NeoForge 21.1.251 and Java 21.
+  Custom mods live in mods/core; packwiz metadata lives in pack/.
+  Read AGENTS.md and .agents/skills/minecraft-neoforge/SKILL.md before modding.
+  Default development checks cover static validation and compilation. Do not launch
+  the client, server, GameTest or game-initializing datagen without explicit authorization.
+  CI compiles without game launches. Keep personal account and machine details out of project docs.
+  Separate implementation, static checks, compilation and runtime acceptance.
+  Preserve registry IDs and saved data; lock dependencies and record distribution provenance.
+  Do not invent gameplay or implicitly migrate Minecraft versions.
+
+rules:
+  proposal:
+    - Explain the player or maintainer outcome, scope and affected capabilities.
+    - Identify version, dependency, distribution and saved-world impacts when relevant.
+  specs:
+    - Use observable requirements and WHEN/THEN scenarios, including side and persistence when relevant.
+    - Define deferred runtime acceptance explicitly; static checks do not prove gameplay works.
+  design:
+    - Explain module location, server authority and client-only boundaries when applicable.
+    - Describe migration and rollback for registry, config, world data or network changes.
+  tasks:
+    - Separate implementation, static checks, build and deferred game acceptance.
+    - Check off only work supported by evidence; game acceptance requires separate authorization.
+
+operations:
+  apply:
+    guidance:
+      - Use the pinned project CLI and keep changes focused on the requested capability.
+  archive:
+    guidance:
+      - Do not archive unfinished gameplay acceptance as completed; record remaining verification.

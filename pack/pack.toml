@@ -1,0 +1,13 @@
+name = "End of Light"
+author = "Patchouliys"
+version = "0.1.0"
+pack-format = "packwiz:1.1.0"
+
+[index]
+file = "index.toml"
+hash-format = "sha256"
+hash = "2311d522f31d3ff738a17920e33f1a7184477385bb9ea9563e00995822c783f9"
+
+[versions]
+minecraft = "1.21.1"
+neoforge = "21.1.251"
